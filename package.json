@@ -19,6 +19,8 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "file-saver": "^2.0.2",
+    "ngx-filesaver": "^8.1.0",
     "rxjs": "~6.4.0",
     "spectre.css": "^0.5.8",
     "tslib": "^1.10.0",
