@@ -1,19 +1,19 @@
 <div class="container">
   <div class="columns">
-    <div class="column col-4 col-mx-auto">
-      <h1 class="text-primary">Creer une classe</h1>
+    <div class="column col-6 col-mx-auto custom-margin">
+      <h1 class="text-primary text-center">Créer une classe</h1>
       <form class="form-group" [formGroup]="classeForm">
-        <label class="form-label" for="input-prof">Professeur</label>
+        <label class="form-label text-secondary margin-input" for="input-prof">Professeur</label>
         <input class="form-input" type="text" id="input-prof" placeholder="professeur..." formControlName="professeur">
 
-        <label class="form-label" for="input-eleves">Nombre d'élèves</label>
+        <label class="form-label text-secondary margin-input" for="input-eleves">Nombre d'élèves</label>
         <input class="form-input" type="number" min="0" id="input-eleves" placeholder="nombre d'élèves..." formControlName="nbEleves">
 
-        <table class="table text-center">
+        <table class="table text-center margin-input" *ngIf="classeForm.get('eleves').value.length != 0">
           <thead>
             <tr>
               <th>Identifiant de l'élève</th>
-              <th>Nom prénom de l'élève</th>
+              <th>Nom et prénom de l'élève</th>
             </tr>
           </thead>
           <tbody>
@@ -26,7 +26,7 @@
           </tbody>
         </table>
         <div class="m-2 text-center">
-          <button type="button" class="btn btn-primary" [disabled]="classeForm.invalid" (click)="valider()">Valider</button>
+          <button type="button" class="btn btn-primary margin-input" [disabled]="checkIfValiderDisabled()" (click)="valider()">Valider</button>
         </div>
       </form>
     </div>

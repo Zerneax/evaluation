@@ -1,0 +1,18 @@
+
+$primary-color: #26547c;
+$secondary-color: #0f8b8d;
+$dark-color: #141414;
+$light-color: #EAEAEA;
+$bacground: #fffcf9;
+
+$sucess-color: #06d6a0;
+$warning-color: #ffd166;
+$error-color: #ef476f;
+$base-font-family: "Muli";
+$mono-font-family: "Muli";
+
+@import "node_modules/spectre.css/src/spectre";
+
+@font-face {
+  font-family: 'Muli';
+}

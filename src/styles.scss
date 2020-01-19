@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../theming.scss";
 
 body {
   height: 100vh;
-  background: #eaeaea;
+  background: $bacground;
 }
 
 .container {

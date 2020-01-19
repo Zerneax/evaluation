@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Eleve } from 'src/app/model/eleve';
 import { Classe } from 'src/app/model/classe';
 import { FileSaverService } from 'ngx-filesaver';
@@ -18,13 +18,19 @@ export class ClasseComponent implements OnInit {
 
   ngOnInit() {
     this.classeForm = this.formBuilder.group({
-        professeur: ['', Validators.required],
+        professeur: ['', [Validators.required, Validators.min(0)]],
         nbEleves: ['', Validators.required],
         eleves: [new Array<Eleve>(), Validators.required],
       });
 
-    this.classeForm.get("nbEleves").valueChanges.subscribe(nb => this.changeNbEleves(nb));
+    this.classeForm.get("nbEleves").valueChanges.subscribe(nb => {
+      if( nb < 0)
+        this.classeForm.get("nbEleves").patchValue(0);
+      else
+        this.changeNbEleves(nb);
+    })
   }
+
 
   changeNbEleves(nbEleves: number) {
     let eleves: Array<Eleve> = new Array<Eleve>();
@@ -35,6 +41,14 @@ export class ClasseComponent implements OnInit {
     this.classeForm.get("eleves").patchValue(eleves);
   }
 
+  checkIfValiderDisabled() {
+    if(this.classeForm.invalid)
+      return true;
+    else {
+      return this.classeForm.get("eleves").value.some(eleve => eleve.nomPrenom == "");
+    }
+  }
+
   valider() {
     const classe: Classe = new Classe(this.classeForm.get("professeur").value, this.classeForm.get("eleves").value);
     console.log(classe);
@@ -42,7 +56,7 @@ export class ClasseComponent implements OnInit {
      type: "application/json"
     });
 
-    this.fileSaverService.save(blob, "test.json");
+    this.fileSaverService.save(blob, classe.professeur + ".json");
   }
 
 }

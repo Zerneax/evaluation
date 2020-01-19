@@ -30,7 +30,8 @@
             "styles": [
               "node_modules/spectre.css/dist/spectre.min.css",
               "node_modules/spectre.css/dist/spectre-icons.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "theming.scss"
             ],
             "scripts": []
           },
