@@ -1,7 +1,6 @@
 import { VisualiserComponent } from './visualiser.component';
 import { NgModule } from '@angular/core';
 import { RetourModule } from '../global/retour/retour.module';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -10,8 +9,7 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     CommonModule,
-    RetourModule,
-    HttpClientModule
+    RetourModule
   ],
   providers: [],
   exports: [VisualiserComponent]

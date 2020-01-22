@@ -1,20 +1,30 @@
 <div class="container">
-  <h1 class="text-primary text-center">Visualiser une évalutation</h1>
+  <h1 class="text-primary text-center text-bold">Exporter une évalutation</h1>
   <div class="columns">
     <div class="column col-6 col-mx-auto">
       <div class="columns">
         <div class="column col-5 col-mx-auto drag-and-drop">
           <p class="text-center text-primary text-bold">fichier classe</p>
           <div class="text-center m-2">
-            <i class="icon icon-2x icon-upload"></i>
-            <p><input type="file" class="form-input mt-2" (change)="uploadFileClasse($event)"></p>
+            <div class="upload-div">
+              <label for="upload-classe" class="label-file">importer un fichier...</label>
+              <input type="file" id="upload-classe" class="input-file" (change)="uploadFileClasse($event)" hidden>
+            </div>
+            <div class="filename">
+                <p class="text-secondary">{{fileNameClasse}}</p>
+            </div>
           </div>
         </div>
         <div class="column col-5 col-mx-auto drag-and-drop">
           <p class="text-center text-primary text-bold">fichier csv</p>
-          <div class="text-center m-2">
-            <i class="icon icon-2x icon-upload"></i>
-            <p><input type="file" class="form-input mt-2" (change)="uploadFileEvaluation($event)"></p>
+          <div class="text-center">
+            <div class="upload-div">
+              <label for="upload-csv" class="label-file">importer un fichier...</label>
+              <input type="file" id="upload-csv" class="input-file" (change)="uploadFileEvaluation($event)" hidden>
+            </div>
+            <div class="filename">
+              <p class="text-secondary">{{fileNameCsv}}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -23,7 +33,7 @@
 
   <div class="text-center">
     <ng-container *ngIf="classe != undefined">
-      <p> Classe de : {{classe.professeur}}</p>
+      <h3 class="text-secondary"> Classe de: {{classe.professeur | uppercase}} | nombre d'élève: {{classe.eleves.length}}</h3>
     </ng-container>
 
     <div class="columns">

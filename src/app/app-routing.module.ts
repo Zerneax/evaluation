@@ -8,7 +8,7 @@ import { VisualiserComponent } from './pages/visualiser/visualiser.component';
 const routes: Routes = [
    {path: '', component: WelcomeComponent},
    {path: 'classe', component: ClasseComponent},
-   {path: 'visualiser', component: VisualiserComponent}
+   {path: 'exporter', component: VisualiserComponent}
 ];
 
 @NgModule({

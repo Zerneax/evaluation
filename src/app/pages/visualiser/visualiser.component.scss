@@ -1,16 +1,35 @@
 @import "../../../../theming.scss";
 
 .drag-and-drop {
-  border: 3px dashed $primary-color;
-  border-radius: 10px;
+  border: 2px dashed $secondary-color;
+  border-radius: 20px;
   height: 200px;
-  padding: 5px;
-  background: $light-color;
-  opacity: .8;
-  filter: opacity(.8) brightness(2);
   margin-top: 2rem;
 }
 
-h1 {
+h1, h3 {
   margin-top: 3rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+.label-file {
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+  font-size: 1rem;
+}
+
+.label-file:hover {
+  font-size: 1.1rem;
+}
+
+.upload-div {
+  margin-top: 50px;
+}
+
+.filename {
+  margin-top: 1rem;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Classe } from 'src/app/model/classe';
 import { Evaluation } from 'src/app/model/evaluation';
+import { LibelleStatut } from 'src/app/model/libelleStatut';
 
 @Component({
   selector: 'app-visualiser',
@@ -12,16 +12,23 @@ export class VisualiserComponent implements OnInit {
 
   public classe: Classe = undefined;
   public evaluations: Array<Evaluation> = new Array();
+  public fileNameClasse: string = "";
+  public fileNameCsv: string = "";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
-  uploadFileClasse(event) {
+  uploadFileClasse(event: any) {
     let reader = new FileReader();
-
+    // reset de la classe et du tableau d'évaluation
+    this.classe = undefined;
+    this.evaluations = new Array();
+    
+    // récupération du fichier dans un blob
     let [file] = event.target.files;
+    this.fileNameClasse = file.name;
     reader.readAsText(file);
 
     reader.onload = () => {
@@ -32,89 +39,83 @@ export class VisualiserComponent implements OnInit {
 
   uploadFileEvaluation(event) {
     let reader = new FileReader();
+    // reset des evaluations
+    this.evaluations = new Array();
 
+    // récupération du fichier dans un blob
     let [file] = event.target.files;
+    this.fileNameCsv = file.name;
     reader.readAsText(file);
 
     reader.onload = () => {
-      const evaluations = reader.result.toString().split("\n");
-      this.decodeEvaluations(evaluations);
+      const dataCSV = reader.result.toString().split("\n");
+      this.decodeEvaluations(dataCSV);
     }
   }
 
-  decodeEvaluations(evaluations: Array<string>) {
-    evaluations
-      .filter(evaluation => evaluation != "")
-      .filter(evaluation => this.classe.eleves.findIndex(eleve => evaluation.split(";")[0] == eleve.id.toString()) != -1)
-      .map(evaluation => {
-          let splitEvaluation = evaluation.split(";");
-          return new Evaluation(splitEvaluation[0], this.convertIdEleveToEleve(splitEvaluation[0]));
+  decodeEvaluations(dataCSV: Array<string>): void {
+    dataCSV
+      .filter(data => data != "")
+      .filter(data => this.classe.eleves.findIndex(eleve => data.split(";")[0] == eleve.id.toString()) != -1)
+      .map(data => {
+          let splitEvaluation = data.split(";");
+          return new Evaluation(splitEvaluation[0], this.decodeIdEleve(splitEvaluation[0]));
       })
-      .forEach(e => {
-        let index = this.evaluations.findIndex(el => el.idEleve == e.idEleve);
+      .forEach(evaluation => {
+        let index = this.evaluations.findIndex(el => el.idEleve == evaluation.idEleve);
         if(index == -1)
-          this.evaluations.push(e);
+          this.evaluations.push(evaluation);
       });
 
-    evaluations.forEach(evaluation => {
-    this.evaluations.forEach(e => {
-        if(e.idEleve == evaluation.split(";")[0]) {
-          if(evaluation.split(";")[2] == "E") {
-            e.autoEvaluation = this.decodeAutoEvaluation(evaluation.split(";")[1]);
+    dataCSV.forEach(data => {
+      this.evaluations.forEach(e => {
+        if(e.idEleve == data.split(";")[0]) {
+          if(data.split(";")[2] == "E") {
+            e.autoEvaluation = this.decodeAutoEvaluation(data.split(";")[1]);
           } else {
-            e.evaluation = this.decodeEvaluation(evaluation.split(";")[1]);
+            e.evaluation = this.decodeEvaluationProfesseur(data.split(";")[1]);
           }
         }
-    });
-
+      });
     })
   }
 
-  addEvaluation(evaluation: Array<string>) {
-    let idEleve = evaluation[0];
-    let note = evaluation[1];
-    let qui = evaluation[2];
-
-    // if(qui == "E") {
-    //   return new Evaluation(
-    //       this.convertIdEleveToEleve(idEleve),
-    //       this.decodeAutoEvaluation(note),
-    //       "");
-    // } else {
-    //     return new Evaluation(
-    //       this.convertIdEleveToEleve(idEleve),
-    //       "",
-    //       this.decodeEvaluation(note));
-    // }
-
-  }
-
-  convertIdEleveToEleve(idEleve: string) {
+  decodeIdEleve(idEleve: string): string {
     let eleve = this.classe.eleves.find(eleve => idEleve == eleve.id.toString());
-    return eleve != undefined ? eleve.nomPrenom : "erreur";
+    return eleve != undefined ? eleve.nomPrenom : "Elève inconnu";
   }
 
-  decodeAutoEvaluation(autoEvaluation: string) {
-    if(autoEvaluation == "1") {
-      return "j'ai réussi";
-    } else if(autoEvaluation == "2") {
-      return "je ne sais pas";
-    } else if(autoEvaluation == "3") {
-      return "je n'ai pas réussi";
-    } else {
-      return "erreur";
+  decodeAutoEvaluation(autoEvaluation: string): string {
+    switch (autoEvaluation) {
+      case "1": {
+        return LibelleStatut.AUTO_EVALUATION_OK;
+      }
+      case "2": {
+        return LibelleStatut.AUTO_EVALUATION_NE_SAIS_PAS;
+      }
+      case "3": {
+        return LibelleStatut.AUTO_EVALUATION_KO;
+      }
+      default: {
+        return LibelleStatut.INCONNU;
+      }
     }
   }
 
-  decodeEvaluation(evaluation: string) {
-    if(evaluation == "1") {
-      return "acquis";
-    } else if(evaluation == "2") {
-      return "A voir ? ";
-    } else if(evaluation == "3") {
-      return "non acquis";
-    } else {
-      return "erreur";
+  decodeEvaluationProfesseur(evaluationProfesseur: string): string {
+    switch (evaluationProfesseur) {
+      case "1": {
+        return LibelleStatut.EVALUATION_OK;
+      }
+      case "2": {
+        return LibelleStatut.EVALUATION_NE_SAIS_PAS;
+      }
+      case "3": {
+        return LibelleStatut.EVALUATION_KO;
+      }
+      default: {
+        return LibelleStatut.INCONNU;
+      }
     }
   }
 }

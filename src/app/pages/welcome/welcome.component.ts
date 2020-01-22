@@ -18,6 +18,6 @@ export class WelcomeComponent implements OnInit {
   }
 
   goToVisualiser() {
-    this.router.navigate(['/visualiser']);
+    this.router.navigate(['/exporter']);
   }
 }
