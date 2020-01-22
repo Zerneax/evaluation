@@ -1,0 +1,16 @@
+@import "../../../../theming.scss";
+
+.drag-and-drop {
+  border: 3px dashed $primary-color;
+  border-radius: 10px;
+  height: 200px;
+  padding: 5px;
+  background: $light-color;
+  opacity: .8;
+  filter: opacity(.8) brightness(2);
+  margin-top: 2rem;
+}
+
+h1 {
+  margin-top: 3rem;
+}

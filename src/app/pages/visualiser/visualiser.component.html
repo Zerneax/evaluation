@@ -1,2 +1,55 @@
-<p>visualiser works!</p>
+<div class="container">
+  <h1 class="text-primary text-center">Visualiser une évalutation</h1>
+  <div class="columns">
+    <div class="column col-6 col-mx-auto">
+      <div class="columns">
+        <div class="column col-5 col-mx-auto drag-and-drop">
+          <p class="text-center text-primary text-bold">fichier classe</p>
+          <div class="text-center m-2">
+            <i class="icon icon-2x icon-upload"></i>
+            <p><input type="file" class="form-input mt-2" (change)="uploadFileClasse($event)"></p>
+          </div>
+        </div>
+        <div class="column col-5 col-mx-auto drag-and-drop">
+          <p class="text-center text-primary text-bold">fichier csv</p>
+          <div class="text-center m-2">
+            <i class="icon icon-2x icon-upload"></i>
+            <p><input type="file" class="form-input mt-2" (change)="uploadFileEvaluation($event)"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <ng-container *ngIf="classe != undefined">
+      <p> Classe de : {{classe.professeur}}</p>
+    </ng-container>
+
+    <div class="columns">
+      <div class="column col-6 col-mx-auto">
+        <ng-container *ngIf="evaluations != undefined && evaluations.length != 0">
+          <table class="table text-center">
+            <thead>
+              <tr>
+                <th>Elève</th>
+                <th>Auto évaluation</th>
+                <th>Evaluation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let evaluation of evaluations">
+                <tr>
+                  <td>{{evaluation.eleve}}</td>
+                  <td>{{evaluation.autoEvaluation}}</td>
+                  <td>{{evaluation.evaluation}}</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
 <app-retour></app-retour>
