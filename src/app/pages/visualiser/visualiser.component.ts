@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Classe } from 'src/app/model/classe';
 import { Evaluation } from 'src/app/model/evaluation';
 import { LibelleStatut } from 'src/app/model/libelleStatut';
+import jsPDF from 'jspdf';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-visualiser',
@@ -14,8 +16,9 @@ export class VisualiserComponent implements OnInit {
   public evaluations: Array<Evaluation> = new Array();
   public fileNameClasse: string = "";
   public fileNameCsv: string = "";
+  public nomSeance: string = "";
 
-  constructor() { }
+  constructor(private datePipe: DatePipe) { }
 
   ngOnInit() {
   }
@@ -25,7 +28,7 @@ export class VisualiserComponent implements OnInit {
     // reset de la classe et du tableau d'évaluation
     this.classe = undefined;
     this.evaluations = new Array();
-    
+
     // récupération du fichier dans un blob
     let [file] = event.target.files;
     this.fileNameClasse = file.name;
@@ -117,5 +120,60 @@ export class VisualiserComponent implements OnInit {
         return LibelleStatut.INCONNU;
       }
     }
+  }
+
+  genererPdf() {
+    var doc = new jsPDF();
+
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(145, 5, `Généré le : ${new Date().toLocaleString()}` );
+
+    doc.setFontSize(30);
+    doc.setTextColor(38, 84, 124);
+    doc.text(85, 30, "Evaluation");
+
+    doc.setTextColor('black');
+    doc.setFontSize(16);
+    doc.text(60, 45, `Classe de: ${this.classe.professeur}` );
+
+    doc.setFontSize(16);
+    doc.text(60, 55, `Objectif de la séance: ${this.nomSeance}` );
+
+    let headers = [
+      {
+        'id': "eleve",
+        'name': "eleve",
+        'prompt':"Elève",
+        'width': 60
+      },
+      {
+        'id': "autoEvaluation",
+        'name': "autoEvaluation",
+        'prompt':"Auto evaluation",
+        'width': 60
+      },
+      {
+        'id': "evaluation",
+        'name': "evaluation",
+        'prompt':"Evaluation",
+        'width': 60
+      }
+    ];
+
+    doc.table(40, 70, this.generateTableForPdf(), headers, {fontSize: 12});
+    doc.save(`Seance_${this.datePipe.transform(new Date(), 'dd/MM/yyyy')}.pdf`);
+  }
+
+  generateTableForPdf() {
+    let table = this.evaluations.map(evaluation => {
+      return {
+        eleve : evaluation.eleve,
+        autoEvaluation: evaluation.autoEvaluation,
+        evaluation: evaluation.evaluation
+      };
+    });
+
+    return table;
   }
 }

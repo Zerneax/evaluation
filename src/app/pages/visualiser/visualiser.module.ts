@@ -1,7 +1,8 @@
 import { VisualiserComponent } from './visualiser.component';
 import { NgModule } from '@angular/core';
 import { RetourModule } from '../global/retour/retour.module';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -9,9 +10,10 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     CommonModule,
-    RetourModule
+    RetourModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [DatePipe],
   exports: [VisualiserComponent]
 })
 export class VisualiserModule { }
