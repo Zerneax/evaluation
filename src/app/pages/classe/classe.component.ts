@@ -34,7 +34,7 @@ export class ClasseComponent implements OnInit {
 
   changeNbEleves(nbEleves: number) {
     let eleves: Array<Eleve> = new Array<Eleve>();
-    for(let i = 0; i < nbEleves; i ++) {
+    for(let i = 1; i <= nbEleves; i ++) {
       eleves.push(new Eleve(i, ""));
     }
 
