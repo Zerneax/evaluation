@@ -2,10 +2,16 @@
 @import "../theming.scss";
 
 body {
-  height: 100vh;
-  background: $bacground;
+  height: 100vh !important;
+  background: $bacground !important;
 }
 
-.container {
-  height: 100%;
+// .container {
+//   height: 100vh;
+//   background: $bacground;
+// }
+
+* {
+  margin: 0;
+  padding: 0;
 }

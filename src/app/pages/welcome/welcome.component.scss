@@ -8,6 +8,40 @@
 }
 
 h1 {
-  font-size: 3.5rem;
+  font-size: 5rem;
   margin-bottom: 2rem;
+  font-family: "Bookman", "URW Bookman L", cursive;
+}
+
+.container {
+  background-image: url("../../../assets/welcome.svg");
+  background-position: right;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.title {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.left-bottom {
+  position: absolute;
+  bottom: 100px;
+  left: 20px;
+  height: 200px;
+  background-image: url("../../../assets/welcome_bis.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.footer {
+  position: absolute;
+  bottom: 2px;
+  left: 10px;
+  font-size: 10px;
 }
