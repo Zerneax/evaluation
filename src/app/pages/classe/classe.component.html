@@ -6,7 +6,7 @@
         <label class="form-label text-secondary margin-input" for="input-prof">Professeur <strong style="color:red;">*</strong></label>
         <input class="form-input" type="text" id="input-prof" placeholder="professeur..." formControlName="professeur">
 
-        <label class="form-label text-secondary margin-input" for="input-eleves">Nombre d'élèvesr <strong style="color:red;">*</strong></label>
+        <label class="form-label text-secondary margin-input" for="input-eleves">Nombre d'élèves <strong style="color:red;">*</strong></label>
         <input class="form-input" type="number" min="0" id="input-eleves" placeholder="nombre d'élèves..." formControlName="nbEleves">
 
         <table class="table text-center margin-input" *ngIf="classeForm.get('eleves').value.length != 0">
