@@ -56,7 +56,7 @@ export class ClasseComponent implements OnInit {
      type: "application/json"
     });
 
-    this.fileSaverService.save(blob, classe.professeur + ".json");
+    this.fileSaverService.save(blob, classe.professeur.replace(" ", "_") + ".json");
   }
 
 }
