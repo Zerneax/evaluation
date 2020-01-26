@@ -3,10 +3,10 @@
     <div class="column col-6 col-mx-auto custom-margin">
       <h1 class="text-primary text-center text-bold">Créer une classe</h1>
       <form class="form-group" [formGroup]="classeForm">
-        <label class="form-label text-secondary margin-input" for="input-prof">Professeur</label>
+        <label class="form-label text-secondary margin-input" for="input-prof">Professeur <strong style="color:red;">*</strong></label>
         <input class="form-input" type="text" id="input-prof" placeholder="professeur..." formControlName="professeur">
 
-        <label class="form-label text-secondary margin-input" for="input-eleves">Nombre d'élèves</label>
+        <label class="form-label text-secondary margin-input" for="input-eleves">Nombre d'élèvesr <strong style="color:red;">*</strong></label>
         <input class="form-input" type="number" min="0" id="input-eleves" placeholder="nombre d'élèves..." formControlName="nbEleves">
 
         <table class="table text-center margin-input" *ngIf="classeForm.get('eleves').value.length != 0">
