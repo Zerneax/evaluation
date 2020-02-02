@@ -19,15 +19,16 @@ export class ClasseComponent implements OnInit {
   ngOnInit() {
     this.classeForm = this.formBuilder.group({
         professeur: ['', [Validators.required, Validators.min(0)]],
-        nbEleves: ['', Validators.required],
+        nbEleves: ['', [Validators.required]],
         eleves: [new Array<Eleve>(), Validators.required],
       });
 
     this.classeForm.get("nbEleves").valueChanges.subscribe(nb => {
-      if( nb < 0)
-        this.classeForm.get("nbEleves").patchValue(0);
+      const newValue = parseInt(nb);
+      if( newValue < 0)
+        this.classeForm.get("nbEleves").patchValue(0, {emitEvent: false});
       else
-        this.changeNbEleves(nb);
+        this.changeNbEleves(newValue);
     })
   }
 
