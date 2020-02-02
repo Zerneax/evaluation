@@ -48,3 +48,14 @@ h1 {
 .text-footer {
   display: inline;
 }
+
+
+@media only screen and (max-width: 1000px) {
+  .img-left-bottom {
+    display: none;
+  }
+
+  .title {
+    //text-align: center;
+  }
+}
