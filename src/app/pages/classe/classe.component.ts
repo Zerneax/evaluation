@@ -33,12 +33,26 @@ export class ClasseComponent implements OnInit {
 
 
   changeNbEleves(nbEleves: number) {
-    let eleves: Array<Eleve> = new Array<Eleve>();
-    for(let i = 1; i <= nbEleves; i ++) {
-      eleves.push(new Eleve(i, ""));
-    }
+    if(nbEleves != undefined && nbEleves != null) {
+      let eleves: Array<Eleve> = this.classeForm.get("eleves").value;
+      if(nbEleves >= eleves.length) {
+        const numberOfNewEleves =  nbEleves - eleves.length;
 
-    this.classeForm.get("eleves").patchValue(eleves);
+        const lastId = eleves.length == 0 ? 1 : eleves.length +1;
+
+        for(let i = lastId; i < (lastId + numberOfNewEleves); i ++) {
+          eleves.push(new Eleve(i, ""));
+        }
+
+        this.classeForm.get("eleves").patchValue(eleves);
+      } else {
+        const numberOfElevesToRemove = eleves.length - nbEleves;
+        for(let i = 0; i < numberOfElevesToRemove; i++) {
+          eleves.pop();
+        }
+        this.classeForm.get("eleves").patchValue(eleves);
+      }
+    }
   }
 
   checkIfValiderDisabled() {
@@ -59,4 +73,20 @@ export class ClasseComponent implements OnInit {
     this.fileSaverService.save(blob, classe.professeur.replace(" ", "_") + ".json");
   }
 
+  uploadFileClasse(event: any) {
+    let reader = new FileReader();
+
+    // récupération du fichier dans un blob
+    let [file] = event.target.files;
+    reader.readAsText(file);
+
+    reader.onload = () => {
+      let json = JSON.parse(JSON.stringify(reader.result));
+      const classe: Classe = JSON.parse(json);
+
+      this.classeForm.get("professeur").patchValue(classe.professeur);
+      this.classeForm.get("nbEleves").patchValue(classe.eleves.length);
+      this.classeForm.get("eleves").patchValue(classe.eleves);
+    }
+  }
 }

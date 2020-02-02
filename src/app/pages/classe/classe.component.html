@@ -2,6 +2,12 @@
   <div class="columns">
     <div class="column col-6 col-mx-auto custom-margin">
       <h1 class="text-primary text-center text-bold">Créer une classe</h1>
+
+      <div class="text-right">
+        <label for="upload-classe" class="btn btn-tertiary">importer une classe...</label>
+        <input type="file" id="upload-classe" class="input-file" (change)="uploadFileClasse($event)" hidden>
+      </div>
+
       <form class="form-group" [formGroup]="classeForm">
         <label class="form-label text-secondary margin-input" for="input-prof">Professeur <strong style="color:red;">*</strong></label>
         <input class="form-input" type="text" id="input-prof" placeholder="professeur..." formControlName="professeur">
