@@ -79,8 +79,6 @@ export class ClasseComponent implements OnInit {
 
     // récupération du fichier dans un blob
     let [file] = event.target.files;
-    reader.readAsText(file);
-
     reader.onload = () => {
       let json = JSON.parse(JSON.stringify(reader.result));
       const classe: Classe = JSON.parse(json);
@@ -89,5 +87,13 @@ export class ClasseComponent implements OnInit {
       this.classeForm.get("nbEleves").patchValue(classe.eleves.length);
       this.classeForm.get("eleves").patchValue(classe.eleves);
     }
+
+    reader.readAsText(file);
+
+
+  }
+
+  buildClasseFromUploadFile(jsonClasse: string) {
+
   }
 }

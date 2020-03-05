@@ -6,6 +6,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FileSaverService } from 'ngx-filesaver';
 import { Classe } from 'src/app/model/classe';
 
+// Mock du FileReader
+let mockFileReader = {
+    readAsText: (blobFile) => {},
+    onload: () => {},
+    result : ''
+}
 
 describe('ClasseComponent', () => {
   let component: ClasseComponent;
@@ -94,17 +100,21 @@ describe('ClasseComponent', () => {
   });
 
   it('should test uploadFileClasse', () => {
+    spyOn<any>(window, 'FileReader').and.returnValue(mockFileReader);
+    spyOn(mockFileReader, 'readAsText').and.callFake((blobFile) => {
+      mockFileReader.result =  '{"professeur":"test","eleves":[{"id":1,"nomPrenom":"toto"}]}';
+      mockFileReader.onload();
+    });
+
     const classe: Classe = new Classe("test", [{id: 1, nomPrenom: "toto"}]);
     const file = new File([JSON.stringify(classe)], "test.json", {type: "application/json"});
 
     let event = { target: { files: [ file ] } };
 
     component.uploadFileClasse(event);
-    //Temps nécessaire pour que le onLoad soit executé
-    setTimeout(() => {
-      expect(component.classeForm.get("professeur").value).toEqual("test");
-      expect(component.classeForm.get("nbEleves").value).toEqual(1);
-      expect(component.classeForm.get("eleves").value).toEqual([{id: 1, nomPrenom: "toto"}]);
-    }, 1000);
+
+    expect(component.classeForm.get("professeur").value).toEqual("test");
+    expect(component.classeForm.get("nbEleves").value).toEqual(1);
+    expect(component.classeForm.get("eleves").value).toEqual([{id: 1, nomPrenom: "toto"}]);
   });
 });

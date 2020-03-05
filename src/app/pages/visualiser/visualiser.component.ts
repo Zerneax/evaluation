@@ -32,12 +32,13 @@ export class VisualiserComponent implements OnInit {
     // récupération du fichier dans un blob
     let [file] = event.target.files;
     this.fileNameClasse = file.name;
-    reader.readAsText(file);
 
     reader.onload = () => {
       let json = JSON.parse(JSON.stringify(reader.result));
       this.classe = JSON.parse(json);
     }
+
+    reader.readAsText(file);
   }
 
   uploadFileEvaluation(event) {
@@ -48,38 +49,47 @@ export class VisualiserComponent implements OnInit {
     // récupération du fichier dans un blob
     let [file] = event.target.files;
     this.fileNameCsv = file.name;
-    reader.readAsText(file);
 
     reader.onload = () => {
       const dataCSV = reader.result.toString().split("\n");
       this.decodeEvaluations(dataCSV);
     }
+
+    reader.readAsText(file);
   }
 
+  // fonction permettant de décoder le fichier CSV contenant l'évaluation
+  // Format du CSV : idEleve;Evaluation;Qui
+  // valeur possible pour Evaluation : 1, 2, 3 (voir decodeEvaluation plus bas)
+  // valeur possible pour Qui : E (Eleve), P (Professeur)
   decodeEvaluations(dataCSV: Array<string>): void {
     dataCSV
-      .filter(data => data != "")
+      .filter(data => data != "") // filtre les lignes vides
+      // on filtre pour ne garder que les eleves connus
       .filter(data => this.classe.eleves.findIndex(eleve => data.split(";")[0] == eleve.id.toString()) != -1)
+      // création d'une liste d'évaluation
       .map(data => {
           let splitEvaluation = data.split(";");
-          return new Evaluation(splitEvaluation[0], this.decodeIdEleve(splitEvaluation[0]));
+          // pour le moment, on fait juste le listing des éléves
+          return new Evaluation(
+            splitEvaluation[0],
+            this.decodeIdEleve(splitEvaluation[0]));
       })
+      // supression des doublons
       .forEach(evaluation => {
         let index = this.evaluations.findIndex(el => el.idEleve == evaluation.idEleve);
-        if(index == -1)
+        if(index == -1) // si index == -1 alors il n'y a pas doublon
           this.evaluations.push(evaluation);
       });
 
+    // on reparcours le CSV pour maintenant récupérer l'évalution en elle même
     dataCSV.forEach(data => {
-      this.evaluations.forEach(e => {
-        if(e.idEleve == data.split(";")[0]) {
-          if(data.split(";")[2] == "E") {
-            e.autoEvaluation = this.decodeAutoEvaluation(data.split(";")[1]);
-          } else {
-            e.evaluation = this.decodeEvaluationProfesseur(data.split(";")[1]);
-          }
-        }
-      });
+      let evaluation = this.evaluations.find(evaluation => evaluation.idEleve == data.split(";")[0]);
+
+      if(evaluation != undefined) {
+        if(data.split(";")[2] == "E") evaluation.autoEvaluation = this.decodeAutoEvaluation(data.split(";")[1]);
+        else evaluation.evaluation = this.decodeEvaluationProfesseur(data.split(";")[1]);
+      }
     })
   }
 
