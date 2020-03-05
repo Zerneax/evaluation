@@ -4,6 +4,8 @@ import { ClasseComponent } from './classe.component';
 import { ClasseModule } from './classe.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FileSaverService } from 'ngx-filesaver';
+import { Classe } from 'src/app/model/classe';
+
 
 describe('ClasseComponent', () => {
   let component: ClasseComponent;
@@ -89,5 +91,20 @@ describe('ClasseComponent', () => {
 
     component.valider();
     expect(fileSaverService.save).toHaveBeenCalled();
+  });
+
+  it('should test uploadFileClasse', () => {
+    const classe: Classe = new Classe("test", [{id: 1, nomPrenom: "toto"}]);
+    const file = new File([JSON.stringify(classe)], "test.json", {type: "application/json"});
+
+    let event = { target: { files: [ file ] } };
+
+    component.uploadFileClasse(event);
+    //Temps nécessaire pour que le onLoad soit executé
+    setTimeout(() => {
+      expect(component.classeForm.get("professeur").value).toEqual("test");
+      expect(component.classeForm.get("nbEleves").value).toEqual(1);
+      expect(component.classeForm.get("eleves").value).toEqual([{id: 1, nomPrenom: "toto"}]);
+    }, 1000);
   });
 });
