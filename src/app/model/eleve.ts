@@ -2,8 +2,8 @@ export class Eleve {
   public id: number;
   public nomPrenom: string;
 
-  constructor(id_: number, nomPrenom_: string) {
-    this.id = id_;
-    this.nomPrenom = nomPrenom_;
+  constructor(id: number, nomPrenom: string) {
+    this.id = id;
+    this.nomPrenom = nomPrenom;
   }
 }

@@ -32,7 +32,7 @@ describe('RetourComponent', () => {
   });
 
   it('should test goToHome', () => {
-    spyOn(router, 'navigate').and.callFake(() => {return null});
+    spyOn(router, 'navigate').and.callFake(() => null);
 
     component.goToHome();
     expect(router.navigate).toHaveBeenCalledWith(['']);

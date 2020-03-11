@@ -5,8 +5,8 @@ export class Classe {
   public eleves: Array<Eleve>;
 
 
-  constructor(professeur_: string, eleves_: Array<Eleve>) {
-    this.professeur = professeur_;
-    this.eleves = eleves_;
+  constructor(professeur: string, eleves: Array<Eleve>) {
+    this.professeur = professeur;
+    this.eleves = eleves;
   }
 }

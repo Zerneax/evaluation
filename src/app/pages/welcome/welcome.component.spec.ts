@@ -23,7 +23,7 @@ describe('WelcomeComponent', () => {
     fixture = TestBed.createComponent(WelcomeComponent);
 
     router = TestBed.get(Router);
-    spyOn(router, 'navigate').and.callFake(() => {return null});
+    spyOn(router, 'navigate').and.callFake(() => null);
 
     component = fixture.componentInstance;
     fixture.detectChanges();

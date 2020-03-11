@@ -7,11 +7,11 @@ import { FileSaverService } from 'ngx-filesaver';
 import { Classe } from 'src/app/model/classe';
 
 // Mock du FileReader
-let mockFileReader = {
+const mockFileReader = {
     readAsText: (blobFile) => {},
     onload: () => {},
     result : ''
-}
+};
 
 describe('ClasseComponent', () => {
   let component: ClasseComponent;
@@ -45,48 +45,48 @@ describe('ClasseComponent', () => {
   it('should test ngOnInit', () => {
     component.ngOnInit();
     expect(component.classeForm).not.toBeUndefined();
-    expect(component.classeForm.get("professeur").value).toEqual('');
-    expect(component.classeForm.get("nbEleves").value).toEqual('');
-    expect(component.classeForm.get("eleves").value).toEqual([]);
+    expect(component.classeForm.get('professeur').value).toEqual('');
+    expect(component.classeForm.get('nbEleves').value).toEqual('');
+    expect(component.classeForm.get('eleves').value).toEqual([]);
   });
 
   it('should test nbEleves value change', () => {
     spyOn(component, 'changeNbEleves').and.callFake(() => {});
 
-    expect(component.classeForm.get("nbEleves").value).toEqual('');
+    expect(component.classeForm.get('nbEleves').value).toEqual('');
 
-    component.classeForm.get("nbEleves").patchValue(10);
-    expect(component.classeForm.get("nbEleves").value).toEqual(10);
+    component.classeForm.get('nbEleves').patchValue(10);
+    expect(component.classeForm.get('nbEleves').value).toEqual(10);
     expect(component.changeNbEleves).toHaveBeenCalled();
 
-    component.classeForm.get("nbEleves").patchValue(-1);
-    expect(component.classeForm.get("nbEleves").value).toEqual(0);
+    component.classeForm.get('nbEleves').patchValue(-1);
+    expect(component.classeForm.get('nbEleves').value).toEqual(0);
 
     expect(component.changeNbEleves).toHaveBeenCalledTimes(1);
   });
 
   it('should test changeNbEleves', () => {
     component.changeNbEleves(10);
-    expect(component.classeForm.get("eleves").value.length).toEqual(10);
+    expect(component.classeForm.get('eleves').value.length).toEqual(10);
 
     component.changeNbEleves(5);
-    expect(component.classeForm.get("eleves").value.length).toEqual(5);
+    expect(component.classeForm.get('eleves').value.length).toEqual(5);
   });
 
   it('should test checkIfValiderDisabled', () => {
     let retour = component.checkIfValiderDisabled();
     expect(retour).toBeTruthy();
 
-    component.classeForm.get("professeur").patchValue("test");
-    component.classeForm.get("nbEleves").patchValue(1);
-    component.classeForm.get("eleves").patchValue([{nomPrenom: ""}]);
+    component.classeForm.get('professeur').patchValue('test');
+    component.classeForm.get('nbEleves').patchValue(1);
+    component.classeForm.get('eleves').patchValue([{nomPrenom: ''}]);
 
     retour = component.checkIfValiderDisabled();
     expect(retour).toBeTruthy();
 
-    component.classeForm.get("professeur").patchValue("test");
-    component.classeForm.get("nbEleves").patchValue(1);
-    component.classeForm.get("eleves").patchValue([{nomPrenom: "test"}]);
+    component.classeForm.get('professeur').patchValue('test');
+    component.classeForm.get('nbEleves').patchValue(1);
+    component.classeForm.get('eleves').patchValue([{nomPrenom: 'test'}]);
 
     retour = component.checkIfValiderDisabled();
     expect(retour).toBeFalsy();
@@ -106,15 +106,15 @@ describe('ClasseComponent', () => {
       mockFileReader.onload();
     });
 
-    const classe: Classe = new Classe("test", [{id: 1, nomPrenom: "toto"}]);
-    const file = new File([JSON.stringify(classe)], "test.json", {type: "application/json"});
+    const classe: Classe = new Classe('test', [{id: 1, nomPrenom: 'toto'}]);
+    const file = new File([JSON.stringify(classe)], 'test.json', {type: 'application/json'});
 
-    let event = { target: { files: [ file ] } };
+    const event = { target: { files: [ file ] } };
 
     component.uploadFileClasse(event);
 
-    expect(component.classeForm.get("professeur").value).toEqual("test");
-    expect(component.classeForm.get("nbEleves").value).toEqual(1);
-    expect(component.classeForm.get("eleves").value).toEqual([{id: 1, nomPrenom: "toto"}]);
+    expect(component.classeForm.get('professeur').value).toEqual('test');
+    expect(component.classeForm.get('nbEleves').value).toEqual(1);
+    expect(component.classeForm.get('eleves').value).toEqual([{id: 1, nomPrenom: 'toto'}]);
   });
 });

@@ -4,12 +4,12 @@ export class Evaluation {
   public autoEvaluation: string;
   public evaluation: string;
 
-  constructor(idEleve_: string, eleve_: string) {
-    this.idEleve = idEleve_;
-    this.eleve = eleve_;
-    this.autoEvaluation = "";
-    this.evaluation = "";
+  constructor(idEleve: string, eleve: string) {
+    this.idEleve = idEleve;
+    this.eleve = eleve;
+    this.autoEvaluation = '';
+    this.evaluation = '';
   }
 
-  
+
 }
