@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "file-saver": "^2.0.2",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "ngx-filesaver": "^8.1.0",
     "rxjs": "~6.4.0",
     "spectre.css": "^0.5.8",
